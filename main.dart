@@ -1,41 +1,47 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-main(){
-  runApp (ComponenteInicial());
+main() {
+  runApp(ComponenteInicial());
 }
 
-class ComponenteInicial extends StatelessWidget{
+class ComponenteInicial extends StatefulWidget {
+  @override
+  State<ComponenteInicial> createState() => _ComponenteInicialState();
+}
 
-  void eventoBotao(){
-    print("Clicou");
+class _ComponenteInicialState extends State<ComponenteInicial> {
+  var contador = 0;
+
+  var perguntas = [
+    "Qual seu nome?",
+    "Qual sua data de nascimento?",
+    "Qual sua cor favorita?",
+    "Qual sua comida favorita?"
+  ];
+
+  void eventoBotao() {
+    setState(() {
+      contador:
+      contador++;
+    });
+    print(contador);
   }
 
-  Widget build (BuildContext context){
+  Widget build(BuildContext context) {
     return MaterialApp(
-      home:Scaffold(
-        appBar: AppBar(
-          title: Text("Perguntas e Respostas"),
-        ),
-        body: 
-          Column(
-          children: [
-           ElevatedButton(onPressed: eventoBotao, 
-            child: Text("Enviar")),
-            ElevatedButton(onPressed: eventoBotao, 
-            child: Text("Cancelar")),
-             ElevatedButton(onPressed: eventoBotao, 
-            child: Text("Salvar")),
-             Column(children: [
-               Text("Aprendedo"),
-               Text("Programando"),
-               Text("Flutter")
+      home: Scaffold(
+          appBar: AppBar(
+            title: Text("Atividade - Yara Ramos Dias"),
+          ),
+          body: Column(
+            children: [
+              Text(perguntas[contador]),
+              ElevatedButton(onPressed: eventoBotao, child: Text("Enviar")),
+              ElevatedButton(onPressed: eventoBotao, child: Text("Cancelar")),
+              ElevatedButton(onPressed: eventoBotao, child: Text("Salvar")),
             ],
-             )
-          ],
-         
-        ),
-      ),
+          )),
     );
   }
 }
