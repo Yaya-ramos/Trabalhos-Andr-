@@ -19,6 +19,8 @@ class _ComponenteInicialState extends State<ComponenteInicial> {
     "Qual sua cor favorita?",
     "Qual sua comida favorita?"
   ];
+  
+    
 
   void eventoBotao() {
     setState(() {
@@ -38,8 +40,11 @@ class _ComponenteInicialState extends State<ComponenteInicial> {
             children: [
               Text(perguntas[contador]),
               ElevatedButton(onPressed: eventoBotao, child: Text("Enviar")),
-              ElevatedButton(onPressed: eventoBotao, child: Text("Cancelar")),
-              ElevatedButton(onPressed: eventoBotao, child: Text("Salvar")),
+            Column(
+              children:[
+                ElevatedButton(onPressed: eventoBotao, child: Text("Novo Botão")),
+            ],
+            )
             ],
           )),
     );
