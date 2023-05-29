@@ -1,52 +1,66 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-main() {
-  runApp(ComponenteInicial());
+import './questao.dart';
+import './resposta.dart';
+
+void main() {
+  runApp(MyApp());
 }
 
-class ComponenteInicial extends StatefulWidget {
+class MyApp extends StatefulWidget {
   @override
-  State<ComponenteInicial> createState() => _ComponenteInicialState();
+  _MyAppState createState() => _MyAppState();
 }
 
-class _ComponenteInicialState extends State<ComponenteInicial> {
-  var contador = 0;
+class _MyAppState extends State<MyApp> {
 
-  var perguntas = [
-    "Qual seu nome?",
-    "Qual sua data de nascimento?",
-    "Qual sua cor favorita?",
-    "Qual sua comida favorita?"
-  ];
+  var perguntaAtual = 0;
+  var cor = Colors.white;
+
+final List<Map<String, Object>> perguntas = [
+    {
+      "texto" : "Qual a sua cor favorita?",
+      "respostas" : ["Preto", "Branco", "Azul", "Vermelho"]
+    },
+    {
+      "texto" : "Qual é seu animal favorito?",
+      "respostas" : ["Cachorro", "Gato", "Peixe", "Cobra"]
+    },
+    {
+      "texto" : "Qual sua linguagem favorita?",
+      "respostas" : ["PHP", "Java", "JavaScript"]
+    },
+];
   
-    
-
-  void eventoBotao() {
+  void acao(){
     setState(() {
-      contador:
-      contador++;
+      perguntaAtual++;
     });
-    print(contador);
+    print(perguntaAtual);
   }
 
-  Widget build(BuildContext context) {
+   Widget build(BuildContext context){
+
+    List<Widget> respostas = [];
+    
+    for (var resposta in perguntas[perguntaAtual].cast()["respostas"]) {
+      print(resposta);
+      respostas.add(
+          resposta(resposta, acao)
+        );
+    }
+
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(
-            title: Text("Atividade - Yara Ramos Dias"),
-          ),
-          body: Column(
-            children: [
-              Text(perguntas[contador]),
-              ElevatedButton(onPressed: eventoBotao, child: Text("Enviar")),
-            Column(
-              children:[
-                ElevatedButton(onPressed: eventoBotao, child: Text("Novo Botão")),
-            ],
-            )
-            ],
-          )),
+        appBar: AppBar(
+          title: Questao(perguntas[perguntaAtual]["texto"].toString()),
+        ),
+        body: Column(
+          children: [
+            ...respostas,
+          ],
+        ),
+      )
     );
   }
 }
