@@ -15,6 +15,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
   var perguntaAtual = 0;
+
   var cor = Colors.white;
 
 final List<Map<String, Object>> perguntas = [
@@ -32,6 +33,9 @@ final List<Map<String, Object>> perguntas = [
     },
 ];
   
+bool get temPergunta{
+  return perguntaAtual < perguntas.length;
+}
   void acao(){
     setState(() {
       perguntaAtual++;
@@ -42,24 +46,26 @@ final List<Map<String, Object>> perguntas = [
    Widget build(BuildContext context){
 
     List<Widget> respostas = [];
-    
+
+if(temPergunta){
     for (var resposta in perguntas[perguntaAtual].cast()["respostas"]) {
       print(resposta);
       respostas.add(
-          resposta(resposta, acao)
+          Resposta(resposta, acao)
         );
     }
+}
 
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Questao(perguntas[perguntaAtual]["texto"].toString()),
+          title: temPergunta ? Questao(perguntas[perguntaAtual]["texto"].toString()) : Questao("Terminou"),
         ),
-        body: Column(
+        body: temPergunta ? Column(
           children: [
             ...respostas,
           ],
-        ),
+        ) : Text("Resultado"),
       )
     );
   }
