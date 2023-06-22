@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './questao.dart';
-import './resposta.dart';
+import './Questionario.dart';
 
 void main() {
   runApp(MyApp());
@@ -43,30 +43,22 @@ bool get temPergunta{
     print(perguntaAtual);
   }
 
-   Widget build(BuildContext context){
-
-    List<Widget> respostas = [];
-
-if(temPergunta){
-    for (var resposta in perguntas[perguntaAtual].cast()["respostas"]) {
-      print(resposta);
-      respostas.add(
-          Resposta(resposta, acao)
-        );
-    }
-}
-
+    Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: temPergunta ? Questao(perguntas[perguntaAtual]["texto"].toString()) : Questao("Terminou"),
+          title: temPergunta
+              ? Questao(perguntas[perguntaAtual]["texto"].toString()) 
+              : Questao("Terminou"),
         ),
-        body: temPergunta ? Column(
-          children: [
-            ...respostas,
-          ],
-        ) : Text("Resultado"),
-      )
+        body: temPergunta
+            ? Questionario(
+                perguntas: perguntas,
+                perguntaAtual: perguntaAtual,
+                onRespostaSelecionada: () => acao(),
+              )
+            : Text("Resultado"),
+      ),
     );
   }
 }
