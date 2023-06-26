@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
+import './resultado.dart';
 import './questao.dart';
-import './Questionario.dart';
+import './questionario.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,16 +33,19 @@ final List<Map<String, Object>> perguntas = [
       "respostas" : ["PHP", "Java", "JavaScript"]
     },
 ];
-  
-bool get temPergunta{
-  return perguntaAtual < perguntas.length;
-}
-  void acao(){
+List<String> respostas = [];
+
+void acao(String resposta){
     setState(() {
+      respostas.add(resposta);
       perguntaAtual++;
     });
     print(perguntaAtual);
   }
+
+bool get temPergunta{
+  return perguntaAtual < perguntas.length;
+}
 
     Widget build(BuildContext context) {
     return MaterialApp(
@@ -55,9 +59,9 @@ bool get temPergunta{
             ? Questionario(
                 perguntas: perguntas,
                 perguntaAtual: perguntaAtual,
-                onRespostaSelecionada: () => acao(),
+                onRespostaSelecionada: (resposta) => acao(resposta),
               )
-            : Text("Resultado"),
+            : Resultado(respostas: respostas),
       ),
     );
   }
