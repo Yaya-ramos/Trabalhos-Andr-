@@ -1,67 +1,93 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
-import './resultado.dart';
-import './questao.dart';
-import './questionario.dart';
+
+class Ficha extends StatelessWidget {
+  final String imageUrl;
+  final String nome;
+  final int matricula;
+  final String escola;
+  final String ano;
+  final String periodo;
+
+  Ficha({
+    required this.imageUrl,
+    required this.nome,
+    required this.matricula,
+    required this.escola,
+    required this.ano,
+    required this.periodo,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Column(
+        children: [
+          Image.network(
+            imageUrl,
+            width: 100,
+            height: 150,
+            fit: BoxFit.cover,
+          ),
+          SizedBox(height: 10),
+          Text('Nome: $nome'),                 
+          Text('Matrícula: $matricula'),
+          Text('Escola: $escola'),
+          Text('Ano: $ano'),
+          Text('Período: $periodo')
+        ],
+      ),
+    );
+  }
+}
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
+  final List<Ficha> fichas = [
+    Ficha(
+      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyt0bQbrTa-30GNQRHGOGWX-skiQZNxdgj8A&usqp=CAUimgs\img1.png',
+      nome: 'Maria',
+      matricula: Random().nextInt(100000),
+      escola: 'CEFET-MG',
+      ano: '2023',
+      periodo: '1° Período',
+    ),
+
+    Ficha(
+      imageUrl: 'https://png.pngtree.com/png-clipart/20220322/ourmid/pngtree-cartoon-cute-godzilla-character-girl-drinking-milk-tea-head-png-image_4507335.png',
+      nome: 'Júlia',
+      matricula: Random().nextInt(100000),
+      escola: 'CEFET-MG',
+      ano: '2023',
+      periodo: '5° Período',
+    ),
+    Ficha(
+      imageUrl: 'https://png.pngtree.com/png-clipart/20210313/ourmid/pngtree-cute-cartoon-characters-png-image_3021844.jpg',
+      nome: 'Fernanda',
+      matricula: Random().nextInt(100000),
+      escola: 'CEFET-MG',
+      ano: '2023',
+      periodo: '3° Período',
+    ),
+  ];
+
   @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-
-  var perguntaAtual = 0;
-
-  var cor = Colors.white;
-
-final List<Map<String, Object>> perguntas = [
-    {
-      "texto" : "Qual a sua cor favorita?",
-      "respostas" : ["Preto", "Branco", "Azul", "Vermelho"]
-    },
-    {
-      "texto" : "Qual é seu animal favorito?",
-      "respostas" : ["Cachorro", "Gato", "Peixe", "Cobra"]
-    },
-    {
-      "texto" : "Qual sua linguagem favorita?",
-      "respostas" : ["PHP", "Java", "JavaScript"]
-    },
-];
-List<String> respostas = [];
-
-void acao(String resposta){
-    setState(() {
-      respostas.add(resposta);
-      perguntaAtual++;
-    });
-    print(perguntaAtual);
-  }
-
-bool get temPergunta{
-  return perguntaAtual < perguntas.length;
-}
-
-    Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: temPergunta
-              ? Questao(perguntas[perguntaAtual]["texto"].toString()) 
-              : Questao("Terminou"),
+          title: Text('Ficha de Alunos'),
         ),
-        body: temPergunta
-            ? Questionario(
-                perguntas: perguntas,
-                perguntaAtual: perguntaAtual,
-                onRespostaSelecionada: (resposta) => acao(resposta),
-              )
-            : Resultado(respostas: respostas),
+        body: ListView.builder(
+          itemCount: fichas.length,
+          itemBuilder: (ctx, index) {
+            return fichas[index];
+          },
+        ),
       ),
     );
   }
